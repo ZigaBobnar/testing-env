@@ -1,3 +1,6 @@
 [submodule "testing-env.wiki"]
 	path = testing-env.wiki
 	url = git@github.com:ZigaBobnar/testing-env.wiki.git
+[submodule "vortex"]
+	path = vortex
+	url = git@github.com:ZigaBobnar/vortex.git
