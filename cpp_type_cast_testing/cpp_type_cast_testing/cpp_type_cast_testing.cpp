@@ -86,7 +86,7 @@ int main()
     std::cout << dm2->to_string() << std::endl;
     */
 
-    {
+    /*{
         Derived* d = new Derived();
         d->derived_private = "custom";
 
@@ -100,5 +100,42 @@ int main()
         std::cout << std::endl;
         std::cout << dm->to_string() << std::endl;
         std::cout << std::endl;
+    }*/
+
+
+    /*{ // Does not work properly
+        Derived d;
+        std::cout << d.to_string() << std::endl << std::endl;
+
+        Master m1 = d;
+        Master m2 = static_cast<Master>(d);
+
+        std::cout << m1.to_string() << std::endl;
+        std::cout << m2.to_string() << std::endl;
+        std::cout << std::endl;
+
+        Derived* d1 = static_cast<Derived*>(&m1);
+        Derived* d2 = static_cast<Derived*>(&m2);
+
+        std::cout << d1->to_string() << std::endl;
+        std::cout << d2->to_string() << std::endl;
+    }*/
+
+    { // Works properly
+        Derived d;
+        std::cout << d.to_string() << std::endl << std::endl;
+
+        Master* m1 = &d;
+        Master* m2 = static_cast<Master*>(&d);
+
+        std::cout << m1->to_string() << std::endl;
+        std::cout << m2->to_string() << std::endl;
+        std::cout << std::endl;
+
+        Derived* d1 = static_cast<Derived*>(m1);
+        Derived* d2 = static_cast<Derived*>(m2);
+
+        std::cout << d1->to_string() << std::endl;
+        std::cout << d2->to_string() << std::endl;
     }
 }
