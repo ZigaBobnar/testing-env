@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 using std::string;
 
@@ -61,6 +62,12 @@ public:
 };
 
 
+void print_info(string description, const std::type_info& info) {
+    std::cout << description << ":" << std::endl
+        << "\tname\t\t" << info.name() << std::endl
+        << "\thash_code\t" << info.hash_code() << std::endl
+        << "\traw_name\t" << info.raw_name() << std::endl;
+}
 
 int main()
 {
@@ -121,7 +128,7 @@ int main()
         std::cout << d2->to_string() << std::endl;
     }*/
 
-    { // Works properly
+    if (false) { // Works properly
         Derived d;
         std::cout << d.to_string() << std::endl << std::endl;
 
@@ -137,5 +144,17 @@ int main()
 
         std::cout << d1->to_string() << std::endl;
         std::cout << d2->to_string() << std::endl;
+    }
+
+    if (true) { // RTTI
+        Derived d;
+        const std::type_info& d_info = typeid(d);
+        print_info("Derived, original", d_info);
+
+        Master* m_ptr_cast = &d;
+        const std::type_info& m_ptr_cast_info = typeid(m_ptr_cast);
+        const std::type_info& m_ptr_cast_value_info = typeid(*m_ptr_cast);
+        print_info("Master*, direct pointer cast", m_ptr_cast_info);
+        print_info("Master*, direct pointer cast value", m_ptr_cast_value_info); // This matches the Derived info
     }
 }
