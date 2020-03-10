@@ -162,18 +162,25 @@ int main()
     }
 
     if (true) { // Shared pointers
-        std::shared_ptr<Derived> d_cast;
+        auto check_null_lambda = [](std::shared_ptr<Derived> d) { return d.operator bool(); };
 
+        std::shared_ptr<Derived> d_cast;
+        bool isnull = check_null_lambda(d_cast);
+        
         {
             std::shared_ptr<Derived> d_ptr = std::make_unique<Derived>();
             const std::type_info& d_info = typeid(*d_ptr);
             print_info("Derived, original", d_info);
+            isnull = check_null_lambda(d_cast);
 
             std::shared_ptr<Master> m_ptr_cast = d_ptr;
             const std::type_info& m_ptr_cast_info = typeid(*m_ptr_cast);
             print_info("Master, direct pointer cast", m_ptr_cast_info); // This matches the Derived info
+            isnull = check_null_lambda(d_cast);
 
             d_cast = std::static_pointer_cast<Derived>(m_ptr_cast);
+            isnull = check_null_lambda(d_cast);
+
         }
 
         const std::type_info& d_cast_info = typeid(*d_cast);
