@@ -152,9 +152,11 @@ int main()
         print_info("Derived, original", d_info);
 
         Master* m_ptr_cast = &d;
-        const std::type_info& m_ptr_cast_info = typeid(m_ptr_cast);
-        const std::type_info& m_ptr_cast_value_info = typeid(*m_ptr_cast);
-        print_info("Master*, direct pointer cast", m_ptr_cast_info);
-        print_info("Master*, direct pointer cast value", m_ptr_cast_value_info); // This matches the Derived info
+        const std::type_info& m_ptr_cast_info = typeid(*m_ptr_cast);
+        print_info("Master*, direct pointer cast", m_ptr_cast_info); // This matches the Derived info
+
+        Derived* d_cast = static_cast<Derived*>(m_ptr_cast);
+        const std::type_info& d_cast_info = typeid(*d_cast);
+        print_info("Derived*, cast from Master*", d_cast_info); // Same result as original
     }
 }
