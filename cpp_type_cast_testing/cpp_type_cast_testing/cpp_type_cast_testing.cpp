@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <memory>
 #include <typeinfo>
 
 using std::string;
@@ -146,7 +147,7 @@ int main()
         std::cout << d2->to_string() << std::endl;
     }
 
-    if (true) { // RTTI
+    if (false) { // RTTI
         Derived d;
         const std::type_info& d_info = typeid(d);
         print_info("Derived, original", d_info);
@@ -158,5 +159,24 @@ int main()
         Derived* d_cast = static_cast<Derived*>(m_ptr_cast);
         const std::type_info& d_cast_info = typeid(*d_cast);
         print_info("Derived*, cast from Master*", d_cast_info); // Same result as original
+    }
+
+    if (true) { // Shared pointers
+        std::shared_ptr<Derived> d_cast;
+
+        {
+            std::shared_ptr<Derived> d_ptr = std::make_unique<Derived>();
+            const std::type_info& d_info = typeid(*d_ptr);
+            print_info("Derived, original", d_info);
+
+            std::shared_ptr<Master> m_ptr_cast = d_ptr;
+            const std::type_info& m_ptr_cast_info = typeid(*m_ptr_cast);
+            print_info("Master, direct pointer cast", m_ptr_cast_info); // This matches the Derived info
+
+            d_cast = std::static_pointer_cast<Derived>(m_ptr_cast);
+        }
+
+        const std::type_info& d_cast_info = typeid(*d_cast);
+        print_info("Derived, cast from Master", d_cast_info); // Same result as original
     }
 }
