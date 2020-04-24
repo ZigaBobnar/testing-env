@@ -8,3 +8,8 @@ set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 add_executable(lib_test
     lib_test.cpp
 )
+
+add_custom_target(coverage
+    COMMAND lib_test
+    COMMAND gcov -b ${CMAKE_SOURCE_DIR}/*.cpp -o ${CMAKE_BINARY_DIR}/CMakeFiles/lib_test.dir
+)
