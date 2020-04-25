@@ -9,7 +9,13 @@ add_executable(lib_test
     lib_test.cpp
 )
 
-add_custom_target(coverage
+add_custom_target(coverage_gcov
     COMMAND lib_test
     COMMAND gcov -b ${CMAKE_SOURCE_DIR}/*.cpp -o ${CMAKE_BINARY_DIR}/CMakeFiles/lib_test.dir
+)
+
+add_custom_target(coverage_lcov
+    COMMAND lib_test
+    COMMAND lcov --capture --directory . --output-file lib_test_coverage.info
+    COMMAND genhtml lib_test_coverage.info
 )
