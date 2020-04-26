@@ -21,3 +21,10 @@ add_custom_target(coverage_lcov
     COMMAND lcov --capture --directory . --output-file lib_test_coverage.info
     COMMAND genhtml lib_test_coverage.info
 )
+
+# Download https://github.com/RPGillespie6/fastcov.git
+add_custom_target(coverage_fastcov
+    COMMAND lib_test
+    COMMAND ${CMAKE_SOURCE_DIR}/cmake/fastcov.py --lcov -o lib_test_coverage.info
+    COMMAND genhtml lib_test_coverage.info
+)
